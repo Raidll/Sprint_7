@@ -4,19 +4,10 @@ import requests
 from data import helpers
 
 from data.urls import URLS
+from data import create_courier_parameters
 
 
 class TestCreateCourier:
-    login_for_parameters = helpers.generate_random_string(10)
-    password_for_parameters = helpers.generate_random_string(10)
-    first_name_for_parameters = helpers.generate_random_string(10)
-
-    payloads_for_parameters = [
-        [{"login": login_for_parameters, "password": password_for_parameters}],
-        [{"login": login_for_parameters, "firstName": first_name_for_parameters}],
-        [{"password": password_for_parameters, "firstName": first_name_for_parameters}]
-    ]
-
     @allure.title("Регистрация курьера с корректными данными")
     @allure.description("Проверка успешной регистрации курьера с корректными данными")
     def test_create_courier_with_correct_data_success(self, register_new_courier):
@@ -40,7 +31,7 @@ class TestCreateCourier:
 
     @allure.title("Создание курьера без одного из обязательных полей")
     @allure.description("Создание курьера без каждого из обязательных полей")
-    @pytest.mark.parametrize('payload', payloads_for_parameters)
+    @pytest.mark.parametrize('payload', create_courier_parameters.payloads_for_parameters)
     def test_create_courier_without_required_field_error(self, payload):
         response = requests.post(URLS.API_URL_CREATE_COURIER, data=payload)
         assert response.status_code == 400

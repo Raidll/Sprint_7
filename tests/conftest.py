@@ -4,7 +4,6 @@ import allure
 import pytest
 import random
 import requests
-from data.helpers import Helpers
 from data import helpers
 
 from data.urls import URLS
@@ -36,11 +35,6 @@ def register_new_courier():
 @allure.description("Регистрация курьера, возврат логина, пароля, имени и удаление курьера после теста.")
 @pytest.fixture
 def register_new_courier_return_courier_data():
-    def generate_random_string(length):
-        letters = string.ascii_lowercase
-        random_string = ''.join(random.choice(letters) for i in range(length))
-        return random_string
-
     login_pass_first_name = []
     login = helpers.generate_random_string(10)
     password = helpers.generate_random_string(10)
